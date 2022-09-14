@@ -24,9 +24,10 @@ app.use(express.json()) //Now can access req.body
 
 // Mount routes
 app.use('/api/users', usersRouter)
-app.use('/api/auth', authRouter)
+// app.use('/api/auth', authRouter)
+app.use(authRouter)
 app.use('/api/characters', charactersRouter)
-app.use('/api/profile', profilesRouter)
+app.use('/api/profiles', profilesRouter)
 app.use('/api/builds', buildsRouter)
 
 // app.get('/*', function (req, res) {
