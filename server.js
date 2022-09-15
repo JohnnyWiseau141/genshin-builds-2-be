@@ -4,11 +4,13 @@ import path from 'path' //provides utilities for working with file and directory
 import { fileURLToPath } from 'url' //ensures correct decodings of percent-encoded characters as well as ensuring a cross-platform valid absolute path string
 import logger from 'morgan'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import { router as usersRouter } from './routes/users.js'
 import { router as authRouter } from './routes/auth.js'
 import { router as charactersRouter } from './routes/characters.js'
 import { router as profilesRouter } from './routes/profiles.js'
 import { router as buildsRouter } from './routes/builds.js'
+import { strict } from 'assert'
 
 // Connect to database
 import('./config/database.js')
@@ -21,6 +23,7 @@ app.use(express.static(path.join(path.dirname(fileURLToPath(import.meta.url)),'b
 app.use(cors())
 app.use(logger('dev')) //HTTP request logger middleware for node.js
 app.use(express.json()) //Now can access req.body
+app.use(cookieParser()) //use cookie method of response object
 
 // Mount routes
 app.use('/api/users', usersRouter)
@@ -29,6 +32,17 @@ app.use(authRouter)
 app.use('/api/characters', charactersRouter)
 app.use('/api/profiles', profilesRouter)
 app.use('/api/builds', buildsRouter)
+
+// Set cookies
+app.get('/set-cookies', (req,res)=>{
+  res.cookie('newUser', true, {secure: true, httpOnly: true, sameSite: strict})
+})
+
+app.get('/read-cookies', (req,res)=>{
+  const cookies = req.cookies
+  res.json(cookies)
+})
+
 
 // app.get('/*', function (req, res) {
 //   res.sendFile(
