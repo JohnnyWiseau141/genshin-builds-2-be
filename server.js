@@ -10,7 +10,6 @@ import { router as authRouter } from './routes/auth.js'
 import { router as charactersRouter } from './routes/characters.js'
 import { router as profilesRouter } from './routes/profiles.js'
 import { router as buildsRouter } from './routes/builds.js'
-import { strict } from 'assert'
 
 // Connect to database
 import('./config/database.js')
@@ -34,15 +33,6 @@ app.use('/api/profiles', profilesRouter)
 app.use('/api/builds', buildsRouter)
 
 // Set cookies
-app.get('/set-cookies', (req,res)=>{
-  res.cookie('newUser', true, {secure: true, httpOnly: true, sameSite: strict})
-})
-
-app.get('/read-cookies', (req,res)=>{
-  const cookies = req.cookies
-  res.json(cookies)
-})
-
 
 // app.get('/*', function (req, res) {
 //   res.sendFile(
